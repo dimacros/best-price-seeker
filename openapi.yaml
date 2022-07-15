@@ -1,0 +1,107 @@
+openapi: '3.0.2'
+info:
+  title: Best Price Seeker API
+  version: '1.0'
+servers:
+  - url: http://localhost:3000/api
+paths:
+  /desired-products:
+    get:
+      responses:
+        '200':
+          description: List of desired products.
+          content:
+            application/json:
+              schema:
+               type: array
+               items:
+                $ref: '#/components/schemas/DesiredProductResponse'
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DesiredProductRequest'
+      responses:
+        '201':
+          description: Create a desired product.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DesiredProductResponse'
+  /desired-products/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      responses:
+        '200':
+          description: Get a desired products.
+          content:
+            application/json:
+              schema:
+               type: array
+               items:
+                $ref: '#/components/schemas/DesiredProductResponse'
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DesiredProductRequest'
+      responses:
+        '200':
+            description: Update a desired product.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DesiredProductResponse'
+    delete:
+      responses:
+        '204':
+          description: 'Delete a desired product.'
+components:
+  schemas:
+    DesiredProductRequest:
+      type: object
+      properties:
+        description:
+          type: string
+        product_links:
+          type: array
+          items:
+            minItems: 1
+            type: object
+            properties:
+              cost:
+                type: number
+              link:
+                type: string
+            required:
+              - cost
+              - link
+    DesiredProductResponse:
+      type: object
+      properties:
+        best_price:
+          type: number
+        description:
+          type: string
+        product_links:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: number
+              retail:
+                type: string
+              cost:
+                type: number
+              link:
+                type: string
+            
+
